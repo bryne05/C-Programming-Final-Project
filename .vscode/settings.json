@@ -1,0 +1,10 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "cstdarg": "c",
+        "cstdio": "c",
+        "cstdlib": "c",
+        "cstdint": "c",
+        "types.h": "c"
+    }
+}
