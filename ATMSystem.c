@@ -18,13 +18,17 @@ int depositTransact();
 // Variables
 int userCardInput;
 int userPin;
-int cardNumber;
+int cardNumber = 0;
 int pin;
-int atmBalance = 0;
+int atmBalance;
+int atmBalance1 = 0;
+int atmBalance2 = 0;
 int try = 4;
 int cancel = 1;
 int process;
+int ctr = 0;
 int num;
+int ctr;
 char confirm;
 char withdraw[];
 char deposit[];
@@ -38,233 +42,360 @@ struct atmCard
 };
 
 struct atmCard user1 = {.cardNum = 202011019, .pin = 2487, .atmBalance = 50000};
-struct atmCard user2 = {.cardNum = 202011020, .pin = 8989, .atmBalance = 30000};
+struct atmCard user2 = {.cardNum = 202011020, .pin = 8989, .atmBalance = 70000};
 
 int withdrawTransact()
 {
-    system("cls");
-    purple();
-    printf("\n=================================================================================\n");
-    printf("\n============================--WITHDRAWAL TRANSACTION--===========================\n");
-    printf("\n=================================================================================\n");
-    reset();
-    do
+
+    if (cardNumber == user2.cardNum)
     {
-        printf("\n\t\t\tEnter ");
-        blue();
-        printf("'*'");
-        reset();
-        printf(" to cancel the transaction\n");
-        yellow();
-        printf("\n\nCurrent Balance: $%d\n\n", atmBalance);
-        reset();
-        printf("\nEnter the amount of money that you would like to withdraw: $");
-        green();
-        scanf("%s", &withdraw);
-        reset();
-        if (withdraw[0] == '*')
-        {
-            system("cls");
-            printf("\n=================================================================================\n");
-            red();
-            printf("\n\t\t\tWithdraw Transaction is Cancelled\n");
-            reset();
-            printf("\n=================================================================================\n");
-            return transactionProcess();
-        }
-        if ((withdraw[0] >= 'a' && withdraw[0] <= 'z') || (withdraw[0] >= 'A' && withdraw[0] <= 'Z'))
-        {
-            return withdrawTransact();
-        }
 
-        num = atoi(withdraw);
-
-        if (num > atmBalance)
+        system("cls");
+        printf("current card %d", cardNumber);
+        purple();
+        printf("\n=================================================================================\n");
+        printf("\n============================--WITHDRAWAL TRANSACTION--===========================\n");
+        printf("\n=================================================================================\n");
+        reset();
+        do
         {
-            system("cls");
-            printf("\n=================================================================================\n");
-            red();
-            printf("\n\t     Insufficient Balance, Please Enter a Different Amount\n");
+            printf("\n\t\t\tEnter ");
+            blue();
+            printf("'*'");
             reset();
-            printf("\n=================================================================================\n");
-            if (atmBalance == 0)
+            printf(" to cancel the transaction\n");
+            yellow();
+            printf("\n\nCurrent Balance: $%d\n\n", atmBalance2);
+            reset();
+            printf("\nEnter the amount of money that you would like to withdraw: $");
+            green();
+            scanf("%s", &withdraw);
+            reset();
+            if (withdraw[0] == '*')
             {
                 system("cls");
                 printf("\n=================================================================================\n");
                 red();
-                printf("\n\tCurrent Balance is 0, Please Add Appropriate Funds to Account\n");
+                printf("\n\t\t\tWithdraw Transaction is Cancelled\n");
                 reset();
                 printf("\n=================================================================================\n");
+                return transactionProcess();
             }
-        }
-        else if (num <= atmBalance)
+            if ((withdraw[0] >= 'a' && withdraw[0] <= 'z') || (withdraw[0] >= 'A' && withdraw[0] <= 'Z'))
+            {
+                return withdrawTransact();
+            }
+
+            num = atoi(withdraw);
+
+            if (num > atmBalance2)
+            {
+                system("cls");
+                printf("\n=================================================================================\n");
+                red();
+                printf("\n\t     Insufficient Balance, Please Enter a Different Amount\n");
+                reset();
+                printf("\n=================================================================================\n");
+                if (atmBalance2 == 0)
+                {
+                    system("cls");
+                    printf("\n=================================================================================\n");
+                    red();
+                    printf("\n\tCurrent Balance is 0, Please Add Appropriate Funds to Account\n");
+                    reset();
+                    printf("\n=================================================================================\n");
+                }
+            }
+            else if (num <= atmBalance2)
+            {
+                system("cls");
+                atmBalance2 = atmBalance2 - num;
+                printf("\n=================================================================================\n");
+                printf("\n\t\t\tWithdrawn Amount: $%d\n", num);
+                yellow();
+                printf("\n\t\t\tNew Balance: $%d", atmBalance2);
+                reset();
+                green();
+                printf("\n\t\t\tSuccess: Approved Bank Withdrawal\n");
+                reset();
+                getPrint();
+                printf("\n\t\t\tReceipt Successfully Printed...\n");
+                return transactionProcess();
+            }
+            else
+            {
+                red();
+                printf("Invalid Input");
+                reset();
+                return withdrawTransact();
+            }
+        } while (withdraw > atmBalance2);
+    }
+    else if (cardNumber == user1.cardNum)
+    {
+        system("cls");
+        purple();
+        printf("\n=================================================================================\n");
+        printf("\n============================--WITHDRAWAL TRANSACTION--===========================\n");
+        printf("\n=================================================================================\n");
+        reset();
+        do
         {
-            system("cls");
-            atmBalance = atmBalance - num;
-            printf("\n=================================================================================\n");
-            printf("\n\t\t\tWithdrawn Amount: $%d\n", num);
+            printf("\n\t\t\tEnter ");
+            blue();
+            printf("'*'");
+            reset();
+            printf(" to cancel the transaction\n");
             yellow();
-            printf("\n\t\t\tNew Balance: $%d", atmBalance);
+            printf("\n\nCurrent Balance: $%d\n\n", atmBalance1);
             reset();
+            printf("\nEnter the amount of money that you would like to withdraw: $");
             green();
-            printf("\n\t\t\tSuccess: Approved Bank Withdrawal\n");
+            scanf("%s", &withdraw);
             reset();
-            getPrint();
-            printf("\n\t\t\tReceipt Successfully Printed...\n");
-            return transactionProcess();
-        }
-        else
-        {
-            red();
-            printf("Invalid Input");
-            reset();
-            return withdrawTransact();
-        }
-    } while (withdraw > atmBalance);
+            if (withdraw[0] == '*')
+            {
+                system("cls");
+                printf("\n=================================================================================\n");
+                red();
+                printf("\n\t\t\tWithdraw Transaction is Cancelled\n");
+                reset();
+                printf("\n=================================================================================\n");
+                return transactionProcess();
+            }
+            if ((withdraw[0] >= 'a' && withdraw[0] <= 'z') || (withdraw[0] >= 'A' && withdraw[0] <= 'Z'))
+            {
+                return withdrawTransact();
+            }
+
+            num = atoi(withdraw);
+
+            if (num > atmBalance1)
+            {
+                system("cls");
+                printf("\n=================================================================================\n");
+                red();
+                printf("\n\t     Insufficient Balance, Please Enter a Different Amount\n");
+                reset();
+                printf("\n=================================================================================\n");
+                if (atmBalance1 == 0)
+                {
+                    system("cls");
+                    printf("\n=================================================================================\n");
+                    red();
+                    printf("\n\tCurrent Balance is 0, Please Add Appropriate Funds to Account\n");
+                    reset();
+                    printf("\n=================================================================================\n");
+                }
+            }
+            else if (num <= atmBalance1)
+            {
+                system("cls");
+                atmBalance1 = atmBalance1 - num;
+                printf("\n=================================================================================\n");
+                printf("\n\t\t\tWithdrawn Amount: $%d\n", num);
+                yellow();
+                printf("\n\t\t\tNew Balance: $%d", atmBalance1);
+                reset();
+                green();
+                printf("\n\t\t\tSuccess: Approved Bank Withdrawal\n");
+                reset();
+                getPrint();
+                printf("\n\t\t\tReceipt Successfully Printed...\n");
+                return transactionProcess();
+            }
+            else
+            {
+                red();
+                printf("Invalid Input");
+                reset();
+                return withdrawTransact();
+            }
+        } while (withdraw > atmBalance1);
+    }
 }
 
 int depositTransact()
 {
-    green();
-    printf("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-    printf("\n+++++++++++++++++++++++++++++--DEPOSIT TRANSACTION--+++++++++++++++++++++++++++++\n");
-    printf("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-    reset();
-    printf("\n\t\t\tEnter ");
-    blue();
-    printf("'*'");
-    reset();
-    printf(" to cancel the transaction\n\n");
-    if (atmBalance <= 0)
+    if (cardNumber == user1.cardNum)
     {
-        red();
-        printf("\nCurrent Balance: $%d\n", atmBalance);
+        green();
+        printf("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+        printf("\n+++++++++++++++++++++++++++++--DEPOSIT TRANSACTION--+++++++++++++++++++++++++++++\n");
+        printf("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
         reset();
+        printf("\n\t\t\tEnter ");
+        blue();
+        printf("'*'");
+        reset();
+        printf(" to cancel the transaction\n\n");
+        if (atmBalance1 <= 0)
+        {
+            red();
+            printf("\nCurrent Balance: $%d\n", atmBalance1);
+            reset();
+            yellow();
+            printf("Please Deposit Appropriate Amount\n");
+            reset();
+        }
+        else
+        {
+            yellow();
+            printf("\nCurrent Balance: $%d\n", atmBalance1);
+            reset();
+        }
+        printf("\n\nEnter the amount that you would like to deposit: $");
+        green();
+        scanf("%s", &deposit);
+        reset();
+        if (deposit[0] == '*')
+        {
+            printf("Transaction is Cancelled\n");
+            return transactionProcess();
+        }
+        if ((deposit[0] >= 'a' && deposit[0] <= 'z') || (deposit[0] >= 'A' && deposit[0] <= 'Z'))
+        {
+            return depositTransact();
+        }
+        system("cls");
+        num = atoi(deposit);
+        atmBalance1 += num;
+        printf("\n=================================================================================\n");
+        printf("\n\t\t\tDeposited Amount: $%d\n", num);
         yellow();
-        printf("Please Deposit Appropriate Amount\n");
+        printf("\n\t\t\tUpdated Balance: $%d", atmBalance1);
         reset();
-    }
-    else
-    {
-        yellow();
-        printf("\nCurrent Balance: $%d\n", atmBalance);
+        green();
+        printf("\n\t\t\tSuccess: Approved Back Deposit\n");
         reset();
-    }
-    printf("\n\nEnter the amount that you would like to deposit: $");
-    green();
-    scanf("%s", &deposit);
-    reset();
-    if (deposit[0] == '*')
-    {
-        printf("Transaction is Cancelled\n");
+        getPrint();
+        printf("\n\t\t\tReceipt Successfully Printed...\n");
         return transactionProcess();
     }
-    if ((deposit[0] >= 'a' && deposit[0] <= 'z') || (deposit[0] >= 'A' && deposit[0] <= 'Z'))
+    else if (cardNumber == user2.cardNum)
     {
-        return depositTransact();
+        green();
+        printf("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+        printf("\n+++++++++++++++++++++++++++++--DEPOSIT TRANSACTION--+++++++++++++++++++++++++++++\n");
+        printf("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+        reset();
+        printf("\n\t\t\tEnter ");
+        blue();
+        printf("'*'");
+        reset();
+        printf(" to cancel the transaction\n\n");
+        if (atmBalance2 <= 0)
+        {
+            red();
+            printf("\nCurrent Balance: $%d\n", atmBalance2);
+            reset();
+            yellow();
+            printf("Please Deposit Appropriate Amount\n");
+            reset();
+        }
+        else
+        {
+            yellow();
+            printf("\nCurrent Balance: $%d\n", atmBalance2);
+            reset();
+        }
+        printf("\n\nEnter the amount that you would like to deposit: $");
+        green();
+        scanf("%s", &deposit);
+        reset();
+        if (deposit[0] == '*')
+        {
+            printf("Transaction is Cancelled\n");
+            return transactionProcess();
+        }
+        if ((deposit[0] >= 'a' && deposit[0] <= 'z') || (deposit[0] >= 'A' && deposit[0] <= 'Z'))
+        {
+            return depositTransact();
+        }
+        system("cls");
+        num = atoi(deposit);
+        atmBalance2 += num;
+        printf("\n=================================================================================\n");
+        printf("\n\t\t\tDeposited Amount: $%d\n", num);
+        yellow();
+        printf("\n\t\t\tUpdated Balance: $%d", atmBalance2);
+        reset();
+        green();
+        printf("\n\t\t\tSuccess: Approved Back Deposit\n");
+        reset();
+        getPrint();
+        printf("\n\t\t\tReceipt Successfully Printed...\n");
+        return transactionProcess();
     }
-    system("cls");
-    num = atoi(deposit);
-    atmBalance += num;
-    printf("\n=================================================================================\n");
-    printf("\n\t\t\tDeposited Amount: $%d\n", num);
-    yellow();
-    printf("\n\t\t\tUpdated Balance: $%d", atmBalance);
-    reset();
-    green();
-    printf("\n\t\t\tSuccess: Approved Back Deposit\n");
-    reset();
-    getPrint();
-    printf("\n\t\t\tReceipt Successfully Printed...\n");
-    return transactionProcess();
 }
 
 int inquiryTransact()
 {
-    system("cls");
-    blue();
-    printf("_________________________________________________________________________________\n\n");
-    printf("\n-------------------------------INQUIRY TRANSACTION-------------------------------\n");
-    printf("\n_________________________________________________________________________________\n");
-    reset();
-    yellow();
-    printf("\n\n\t\tAccount Number: %d\n", cardNumber);
-    reset();
-    green();
-    printf("\n\t\t\tCurrent Savings: $%d\n", atmBalance);
-    reset();
-    getPrint();
-    printf("\n\t\t\tReceipt Successfully Printed...\n");
-    printf("\n_________________________________________________________________________________\n\n");
-    return transactionProcess();
+    if (cardNumber == user1.cardNum)
+    {
+        system("cls");
+        blue();
+        printf("_________________________________________________________________________________\n\n");
+        printf("\n-------------------------------INQUIRY TRANSACTION-------------------------------\n");
+        printf("\n_________________________________________________________________________________\n");
+        reset();
+        yellow();
+        printf("\n\n\t\tAccount Number: %d\n", cardNumber);
+        reset();
+        green();
+        printf("\n\t\t\tCurrent Savings: $%d\n", atmBalance1);
+        reset();
+        getPrint();
+        printf("\n\t\t\tReceipt Successfully Printed...\n");
+        printf("\n_________________________________________________________________________________\n\n");
+        return transactionProcess();
+    }
+    if (cardNumber == user2.cardNum)
+    {
+        system("cls");
+        blue();
+        printf("_________________________________________________________________________________\n\n");
+        printf("\n-------------------------------INQUIRY TRANSACTION-------------------------------\n");
+        printf("\n_________________________________________________________________________________\n");
+        reset();
+        yellow();
+        printf("\n\n\t\tAccount Number: %d\n", cardNumber);
+        reset();
+        green();
+        printf("\n\t\t\tCurrent Savings: $%d\n", atmBalance2);
+        reset();
+        getPrint();
+        printf("\n\t\t\tReceipt Successfully Printed...\n");
+        printf("\n_________________________________________________________________________________\n\n");
+        return transactionProcess();
+    }
 }
 
 int transferTransact()
 {
-    blue();
-    printf("\n<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n");
-    printf("\n><><><><><><><><><><><><><><>--TRANSFER TRANSACTION--<><><><><><><><><><><><><><><\n");
-    printf("\n<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n");
-    reset();
-    printf("\n\t\t\tEnter ");
-    blue();
-    printf("'*'");
-    reset();
-    printf(" to cancel the transaction\n");
-    yellow();
-    printf("\n\nCurrent Balance: $%d\n\n", atmBalance);
-    reset();
-    blue();
-    printf("\nEnter the card number from which you wish to transfer funds: ");
-    reset();
-    scanf("%s", &transferCard);
-    if (transferCard[0] == '*')
+    // sending funds to to user 1 using user 2
+    if (cardNumber == user2.cardNum)
     {
-        system("cls");
-        printf("\n=================================================================================\n");
-        red();
-        printf("\n\t\t\t     Transaction is Cancelled\n");
+        blue();
+        printf("\n<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n");
+        printf("\n><><><><><><><><><><><><><><>--TRANSFER TRANSACTION--<><><><><><><><><><><><><><><\n");
+        printf("\n<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n");
         reset();
-        printf("\n=================================================================================\n");
-        return transactionProcess();
-    }
-    if ((transferCard[0] >= 'a' && transferCard[0] <= 'z') || (transferCard[0] >= 'A' && transferCard[0] <= 'Z'))
-    {
-        system("cls");
-        return transferTransact();
-    }
-    num = atoi(transferCard);
-    if (num == userCardInput)
-    {
-        system("cls");
-        printf("\n=================================================================================\n");
-        red();
-        printf("\n\t\t\t    Account Currently in Use\n");
-        reset();
-        printf("\n=================================================================================\n");
-        return transferTransact();
-    }
-    // For User 1
-    if (num == user1.cardNum)
-    {
-        system("cls");
-        printf("\n=================================================================================\n\n");
         printf("\n\t\t\tEnter ");
         blue();
         printf("'*'");
         reset();
         printf(" to cancel the transaction\n");
-        printf("\n\t\tAccount Details\n");
-        blue();
-        printf("\n\t\t\tAccount No: %d\n\t\t\tAccount Balance: $%d\n", user1.cardNum, user1.atmBalance);
-        reset();
         yellow();
-        printf("\n\t\t\tMy Balance: $%d\n\n", atmBalance);
+        printf("\n\nCurrent Balance: $%d\n\n", atmBalance2);
         reset();
-        printf("\n\t\tEnter the amount that you want to transfer: $");
-        scanf("%s", &transferAmount);
-        if (transferAmount[0] == '*')
+        blue();
+        printf("\nEnter the card number from which you wish to transfer funds: ");
+        reset();
+        scanf("%s", &transferCard);
+        if (transferCard[0] == '*')
         {
+            system("cls");
             printf("\n=================================================================================\n");
             red();
             printf("\n\t\t\t     Transaction is Cancelled\n");
@@ -272,51 +403,99 @@ int transferTransact()
             printf("\n=================================================================================\n");
             return transactionProcess();
         }
-        else
+        if ((transferCard[0] >= 'a' && transferCard[0] <= 'z') || (transferCard[0] >= 'A' && transferCard[0] <= 'Z'))
         {
-            int num = atoi(transferAmount);
-            atmBalance -= num;
-            num += user1.atmBalance;
+            system("cls");
+            return transferTransact();
+        }
+        num = atoi(transferCard);
+        if (num == cardNumber)
+        {
             system("cls");
             printf("\n=================================================================================\n");
-            green();
-            printf("\n\t\tSuccessfully Transferred Funds to %d\n", user1.cardNum);
+            red();
+            printf("\n\t\t\t    Account Currently in Use\n");
             reset();
-            printf("\n\t\tTransferred Money: $%d\n", num);
-            yellow();
-            printf("\n\t\t\tAccount No: %d \n\t\t\tTransferred Account New Balance: $%d\n", user1.cardNum, num);
-            reset();
+            printf("\n=================================================================================\n");
+            return transferTransact();
+        }
+        // Send Funds to User 1
+        if (num == user1.cardNum)
+        {
+            system("cls");
+            printf("\n=================================================================================\n\n");
+            printf("\n\t\t\tEnter ");
             blue();
-            printf("\n\t\t\tMy New Current Balance: $%d\n", atmBalance);
+            printf("'*'");
             reset();
-            getPrint();
-            printf("\n\t\t\tReceipt Successfully Printed...\n");
-            printf("\n\n=================================================================================\n");
-            return transactionProcess();
+            printf(" to cancel the transaction\n");
+            printf("\n\t\tAccount Details\n");
+            blue();
+            printf("\n\t\t\tAccount No: %d\n\t\t\tAccount Balance: $%d\n", user1.cardNum, atmBalance1);
+            reset();
+            yellow();
+            printf("\n\t\t\tMy Balance: $%d\n\n", atmBalance2);
+            reset();
+            printf("\n\t\tEnter the amount that you want to transfer: $");
+            scanf("%s", &transferAmount);
+            if (transferAmount[0] == '*')
+            {
+                printf("\n=================================================================================\n");
+                red();
+                printf("\n\t\t\t     Transaction is Cancelled\n");
+                reset();
+                printf("\n=================================================================================\n");
+                return transactionProcess();
+            }
+            else
+            {
+                int num = atoi(transferAmount);
+                atmBalance2 -= num;
+                atmBalance1 += num;
+
+                system("cls");
+                printf("\n=================================================================================\n");
+                green();
+                printf("\n\t\tSuccessfully Transferred Funds to %d\n", user1.cardNum);
+                reset();
+                printf("\n\t\tTransferred Money: $%d\n", num);
+                yellow();
+                printf("\n\t\t\tAccount No: %d \n\t\t\tTransferred Account New Balance: $%d\n", user1.cardNum, atmBalance1);
+                reset();
+                blue();
+                printf("\n\t\t\tMy New Current Balance: $%d\n", atmBalance2);
+                reset();
+                getPrint();
+                printf("\n\t\t\tReceipt Successfully Printed...\n");
+                printf("\n\n=================================================================================\n");
+                return transactionProcess();
+            }
         }
     }
 
-    // For User 2
-    else if (num == user2.cardNum)
+    // Send Funds to user 2 using user 1
+    if (cardNumber == user1.cardNum)
     {
-        system("cls");
-        printf("\n=================================================================================\n\n");
+        blue();
+        printf("\n<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n");
+        printf("\n><><><><><><><><><><><><><><>--TRANSFER TRANSACTION--<><><><><><><><><><><><><><><\n");
+        printf("\n<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n");
+        reset();
         printf("\n\t\t\tEnter ");
         blue();
         printf("'*'");
         reset();
         printf(" to cancel the transaction\n");
-        printf("\n\t\tAccount Details\n");
-        blue();
-        printf("\n\t\t\tAccount No: %d\n\t\t\tAccount Balance: $%d\n", user2.cardNum, user2.atmBalance);
-        reset();
         yellow();
-        printf("\n\t\t\tMy Balance: $%d\n", atmBalance);
+        printf("\n\nCurrent Balance: $%d\n\n", atmBalance1);
         reset();
-        printf("\n\n\t\tEnter the amount that you want to transfer: $");
-        scanf("%s", &transferAmount);
-        if (transferAmount[0] == '*')
+        blue();
+        printf("\nEnter the card number from which you wish to transfer funds: ");
+        reset();
+        scanf("%s", &transferCard);
+        if (transferCard[0] == '*')
         {
+            system("cls");
             printf("\n=================================================================================\n");
             red();
             printf("\n\t\t\t     Transaction is Cancelled\n");
@@ -324,38 +503,73 @@ int transferTransact()
             printf("\n=================================================================================\n");
             return transactionProcess();
         }
-        else
+        if ((transferCard[0] >= 'a' && transferCard[0] <= 'z') || (transferCard[0] >= 'A' && transferCard[0] <= 'Z'))
         {
-            int num = atoi(transferAmount);
-            atmBalance -= num;
-            num += user2.atmBalance;
+            system("cls");
+            return transferTransact();
+        }
+        num = atoi(transferCard);
+        if (num == cardNumber)
+        {
             system("cls");
             printf("\n=================================================================================\n");
-            green();
-            printf("\n\t\tSuccessfully Transferred Funds to %d\n", user2.cardNum);
+            red();
+            printf("\n\t\t\t    Account Currently in Use\n");
             reset();
-            printf("\n\t\tTransferred Money: $%d\n", num);
-            yellow();
-            printf("\n\t\t\tAccount No: %d \n\t\t\tNew Balance: $%d\n", user2.cardNum, num);
-            reset();
-            blue();
-            printf("\n\t\t\tMy New Current Balance: $%d\n", atmBalance);
-            reset();
-            getPrint();
-            printf("\n\t\t\tReceipt Successfully Printed...\n");
-            printf("\n\n=================================================================================\n");
-            return transactionProcess();
+            printf("\n=================================================================================\n");
+            return transferTransact();
         }
-    }
-    else
-    {
-        system("cls");
-        printf("\n=================================================================================\n");
-        red();
-        printf("\n\t\t\t   Please Input Valid Card Number \n");
-        reset();
-        printf("\n=================================================================================\n");
-        return transferTransact();
+        // Send Funds to User 2
+        if (num == user2.cardNum)
+        {
+            system("cls");
+            printf("\n=================================================================================\n\n");
+            printf("\n\t\t\tEnter ");
+            blue();
+            printf("'*'");
+            reset();
+            printf(" to cancel the transaction\n");
+            printf("\n\t\tAccount Details\n");
+            blue();
+            printf("\n\t\t\tAccount No: %d\n\t\t\tAccount Balance: $%d\n", user2.cardNum, atmBalance2);
+            reset();
+            yellow();
+            printf("\n\t\t\tMy Balance: $%d\n\n", atmBalance1);
+            reset();
+            printf("\n\t\tEnter the amount that you want to transfer: $");
+            scanf("%s", &transferAmount);
+            if (transferAmount[0] == '*')
+            {
+                printf("\n=================================================================================\n");
+                red();
+                printf("\n\t\t\t     Transaction is Cancelled\n");
+                reset();
+                printf("\n=================================================================================\n");
+                return transactionProcess();
+            }
+            else
+            {
+                int num = atoi(transferAmount);
+                atmBalance1 -= num;
+                atmBalance2 += num;
+                system("cls");
+                printf("\n=================================================================================\n");
+                green();
+                printf("\n\t\tSuccessfully Transferred Funds to %d\n", user2.cardNum);
+                reset();
+                printf("\n\t\tTransferred Money: $%d\n", num);
+                yellow();
+                printf("\n\t\t\tAccount No: %d \n\t\t\tTransferred Account New Balance: $%d\n", user2.cardNum, atmBalance2);
+                reset();
+                blue();
+                printf("\n\t\t\tMy New Current Balance: $%d\n", atmBalance1);
+                reset();
+                getPrint();
+                printf("\n\t\t\tReceipt Successfully Printed...\n");
+                printf("\n\n=================================================================================\n");
+                return transactionProcess();
+            }
+        }
     }
 }
 
@@ -413,7 +627,7 @@ int transactionProcess()
         printf("\n#                                                                               #");
         printf("\n#################################################################################\n");
         reset();
-        return 0;
+        main();
         break;
     default:
         system("cls");
@@ -488,205 +702,411 @@ int transact()
 
 int getPrint(int argc, char *argv[])
 {
-    char s[100];
-    FILE *receipt;
-    size_t i;
-    struct tm fileTime;
-    time_t current_time;
-    current_time = time(NULL);
-    fileTime = *(localtime(&current_time));
-    i = strftime(s, 100, "./receipts/Bank-Receipt-%b-%d-%Y-%H-%M-%S.txt\0", &fileTime);
-    receipt = fopen(s, "w+");
-    for (int i = 1; i <= 3; i++)
+    if (cardNumber == user1.cardNum)
     {
-        for (int j = 1; j <= 47; j++)
+        char s[100];
+        FILE *receipt;
+        size_t i;
+        struct tm fileTime;
+        time_t current_time;
+        current_time = time(NULL);
+        fileTime = *(localtime(&current_time));
+        i = strftime(s, 100, "./receipts/Bank-Receipt-%b-%d-%Y-%H-%M-%S.txt\0", &fileTime);
+        receipt = fopen(s, "w+");
+        for (int i = 1; i <= 3; i++)
         {
-            if (i == 1 || i == 47 || j == 1 || j == 47)
+            for (int j = 1; j <= 47; j++)
             {
-                fprintf(receipt, "# ");
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
             }
-            else
-            {
-                fprintf(receipt, "  ");
-            }
+            fprintf(receipt, "\n");
         }
-        fprintf(receipt, "\n");
+        fprintf(receipt, "#%*s%-*s  #\n", width[57], "PHOBOS CALLISTO BANK INC.", width[32], "");
+        for (int i = 29; i <= 30; i++)
+        {
+            for (int j = 1; j <= 47; j++)
+            {
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
+            }
+            fprintf(receipt, "\n");
+        }
+        fprintf(receipt, "#  %s", ctime(&current_time), "wwww");
+        for (int i = 45; i <= 47; i++)
+        {
+            for (int j = 1; j <= 47; j++)
+            {
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
+            }
+            fprintf(receipt, "\n");
+        }
+        for (int i = 29; i <= 30; i++)
+        {
+            for (int j = 1; j <= 47; j++)
+            {
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
+            }
+            fprintf(receipt, "\n");
+        }
+        fprintf(receipt, "#%*s%-*s  #\n", width[59], "Bank Transaction Receipt", width[30], "");
+        for (int i = 29; i <= 30; i++)
+        {
+            for (int j = 1; j <= 47; j++)
+            {
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
+            }
+            fprintf(receipt, "\n");
+        }
+        fprintf(receipt, "#%*s%-*s%-*s%-*s%d%-*s  #\n", width[10], "", width[27], "User ID Number: ", width[5], "========>>", width[12], "", userCardInput, width[21], "");
+        for (int i = 29; i <= 30; i++)
+        {
+            for (int j = 1; j <= 47; j++)
+            {
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
+            }
+            fprintf(receipt, "\n");
+        }
+        fprintf(receipt, "#%*s%-*s%-*s #\n", width[48], "", width[20], "=================================", width[9], "");
+        for (int i = 30; i <= 30; i++)
+        {
+            for (int j = 1; j <= 47; j++)
+            {
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
+            }
+            fprintf(receipt, "\n");
+        }
+        fprintf(receipt, "#%*s%-*s%-*s%-*s%d \n", width[10], "", width[27], "Current Transaction: ", width[15], "========>>", width[10], "CURRENT BALANCE: $", atmBalance1);
+        for (int i = 30; i <= 30; i++)
+        {
+            for (int j = 1; j <= 47; j++)
+            {
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
+            }
+            fprintf(receipt, "\n");
+        }
+        fprintf(receipt, "#%*s%-*s%-*s #\n", width[48], "", width[20], "=================================", width[9], "");
+        for (int i = 30; i <= 30; i++)
+        {
+            for (int j = 1; j <= 47; j++)
+            {
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
+            }
+            fprintf(receipt, "\n");
+        }
+        for (int i = 45; i <= 47; i++)
+        {
+            for (int j = 1; j <= 47; j++)
+            {
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
+            }
+            fprintf(receipt, "\n");
+        }
+        for (int i = 29; i <= 30; i++)
+        {
+            for (int j = 1; j <= 47; j++)
+            {
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
+            }
+            fprintf(receipt, "\n");
+        }
+        fprintf(receipt, "#%*s%-*s  #\n", width[57], "THANK YOU FOR BANKING WITH US!", width[32], "");
+        for (int i = 45; i <= 47; i++)
+        {
+            for (int j = 1; j <= 47; j++)
+            {
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
+            }
+            fprintf(receipt, "\n");
+        }
+        fclose(receipt);
+        return (0);
     }
-    fprintf(receipt, "#%*s%-*s  #\n", width[57], "PHOBOS CALLISTO BANK INC.", width[32], "");
-    for (int i = 29; i <= 30; i++)
+
+    if (cardNumber == user2.cardNum)
     {
-        for (int j = 1; j <= 47; j++)
+        char s[100];
+        FILE *receipt;
+        size_t i;
+        struct tm fileTime;
+        time_t current_time;
+        current_time = time(NULL);
+        fileTime = *(localtime(&current_time));
+        i = strftime(s, 100, "./receipts/Bank-Receipt-%b-%d-%Y-%H-%M-%S.txt\0", &fileTime);
+        receipt = fopen(s, "w+");
+        for (int i = 1; i <= 3; i++)
         {
-            if (i == 1 || i == 47 || j == 1 || j == 47)
+            for (int j = 1; j <= 47; j++)
             {
-                fprintf(receipt, "# ");
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
             }
-            else
-            {
-                fprintf(receipt, "  ");
-            }
+            fprintf(receipt, "\n");
         }
-        fprintf(receipt, "\n");
-    }
-    fprintf(receipt, "#  %s", ctime(&current_time), "wwww");
-    for (int i = 45; i <= 47; i++)
-    {
-        for (int j = 1; j <= 47; j++)
+        fprintf(receipt, "#%*s%-*s  #\n", width[57], "PHOBOS CALLISTO BANK INC.", width[32], "");
+        for (int i = 29; i <= 30; i++)
         {
-            if (i == 1 || i == 47 || j == 1 || j == 47)
+            for (int j = 1; j <= 47; j++)
             {
-                fprintf(receipt, "# ");
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
             }
-            else
-            {
-                fprintf(receipt, "  ");
-            }
+            fprintf(receipt, "\n");
         }
-        fprintf(receipt, "\n");
-    }
-    for (int i = 29; i <= 30; i++)
-    {
-        for (int j = 1; j <= 47; j++)
+        fprintf(receipt, "#  %s", ctime(&current_time), "wwww");
+        for (int i = 45; i <= 47; i++)
         {
-            if (i == 1 || i == 47 || j == 1 || j == 47)
+            for (int j = 1; j <= 47; j++)
             {
-                fprintf(receipt, "# ");
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
             }
-            else
-            {
-                fprintf(receipt, "  ");
-            }
+            fprintf(receipt, "\n");
         }
-        fprintf(receipt, "\n");
-    }
-    fprintf(receipt, "#%*s%-*s  #\n", width[59], "Bank Transaction Receipt", width[30], "");
-    for (int i = 29; i <= 30; i++)
-    {
-        for (int j = 1; j <= 47; j++)
+        for (int i = 29; i <= 30; i++)
         {
-            if (i == 1 || i == 47 || j == 1 || j == 47)
+            for (int j = 1; j <= 47; j++)
             {
-                fprintf(receipt, "# ");
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
             }
-            else
-            {
-                fprintf(receipt, "  ");
-            }
+            fprintf(receipt, "\n");
         }
-        fprintf(receipt, "\n");
-    }
-    fprintf(receipt, "#%*s%-*s%-*s%-*s%d%-*s  #\n", width[10], "", width[27], "User ID Number: ", width[5], "========>>", width[12], "", userCardInput, width[21], "");
-    for (int i = 29; i <= 30; i++)
-    {
-        for (int j = 1; j <= 47; j++)
+        fprintf(receipt, "#%*s%-*s  #\n", width[59], "Bank Transaction Receipt", width[30], "");
+        for (int i = 29; i <= 30; i++)
         {
-            if (i == 1 || i == 47 || j == 1 || j == 47)
+            for (int j = 1; j <= 47; j++)
             {
-                fprintf(receipt, "# ");
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
             }
-            else
-            {
-                fprintf(receipt, "  ");
-            }
+            fprintf(receipt, "\n");
         }
-        fprintf(receipt, "\n");
-    }
-    fprintf(receipt, "#%*s%-*s%-*s #\n", width[48], "", width[20], "=================================", width[9], "");
-    for (int i = 30; i <= 30; i++)
-    {
-        for (int j = 1; j <= 47; j++)
+        fprintf(receipt, "#%*s%-*s%-*s%-*s%d%-*s  #\n", width[10], "", width[27], "User ID Number: ", width[5], "========>>", width[12], "", userCardInput, width[21], "");
+        for (int i = 29; i <= 30; i++)
         {
-            if (i == 1 || i == 47 || j == 1 || j == 47)
+            for (int j = 1; j <= 47; j++)
             {
-                fprintf(receipt, "# ");
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
             }
-            else
-            {
-                fprintf(receipt, "  ");
-            }
+            fprintf(receipt, "\n");
         }
-        fprintf(receipt, "\n");
-    }
-    fprintf(receipt, "#%*s%-*s%-*s%-*s%d \n", width[10], "", width[27], "Current Transaction: ", width[15], "========>>", width[10], "CURRENT BALANCE: $", atmBalance);
-    for (int i = 30; i <= 30; i++)
-    {
-        for (int j = 1; j <= 47; j++)
+        fprintf(receipt, "#%*s%-*s%-*s #\n", width[48], "", width[20], "=================================", width[9], "");
+        for (int i = 30; i <= 30; i++)
         {
-            if (i == 1 || i == 47 || j == 1 || j == 47)
+            for (int j = 1; j <= 47; j++)
             {
-                fprintf(receipt, "# ");
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
             }
-            else
-            {
-                fprintf(receipt, "  ");
-            }
+            fprintf(receipt, "\n");
         }
-        fprintf(receipt, "\n");
-    }
-    fprintf(receipt, "#%*s%-*s%-*s #\n", width[48], "", width[20], "=================================", width[9], "");
-    for (int i = 30; i <= 30; i++)
-    {
-        for (int j = 1; j <= 47; j++)
+        fprintf(receipt, "#%*s%-*s%-*s%-*s%d \n", width[10], "", width[27], "Current Transaction: ", width[15], "========>>", width[10], "CURRENT BALANCE: $", atmBalance2);
+        for (int i = 30; i <= 30; i++)
         {
-            if (i == 1 || i == 47 || j == 1 || j == 47)
+            for (int j = 1; j <= 47; j++)
             {
-                fprintf(receipt, "# ");
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
             }
-            else
-            {
-                fprintf(receipt, "  ");
-            }
+            fprintf(receipt, "\n");
         }
-        fprintf(receipt, "\n");
-    }
-    for (int i = 45; i <= 47; i++)
-    {
-        for (int j = 1; j <= 47; j++)
+        fprintf(receipt, "#%*s%-*s%-*s #\n", width[48], "", width[20], "=================================", width[9], "");
+        for (int i = 30; i <= 30; i++)
         {
-            if (i == 1 || i == 47 || j == 1 || j == 47)
+            for (int j = 1; j <= 47; j++)
             {
-                fprintf(receipt, "# ");
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
             }
-            else
-            {
-                fprintf(receipt, "  ");
-            }
+            fprintf(receipt, "\n");
         }
-        fprintf(receipt, "\n");
-    }
-    for (int i = 29; i <= 30; i++)
-    {
-        for (int j = 1; j <= 47; j++)
+        for (int i = 45; i <= 47; i++)
         {
-            if (i == 1 || i == 47 || j == 1 || j == 47)
+            for (int j = 1; j <= 47; j++)
             {
-                fprintf(receipt, "# ");
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
             }
-            else
-            {
-                fprintf(receipt, "  ");
-            }
+            fprintf(receipt, "\n");
         }
-        fprintf(receipt, "\n");
-    }
-    fprintf(receipt, "#%*s%-*s  #\n", width[57], "THANK YOU FOR BANKING WITH US!", width[32], "");
-    for (int i = 45; i <= 47; i++)
-    {
-        for (int j = 1; j <= 47; j++)
+        for (int i = 29; i <= 30; i++)
         {
-            if (i == 1 || i == 47 || j == 1 || j == 47)
+            for (int j = 1; j <= 47; j++)
             {
-                fprintf(receipt, "# ");
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
             }
-            else
-            {
-                fprintf(receipt, "  ");
-            }
+            fprintf(receipt, "\n");
         }
-        fprintf(receipt, "\n");
+        fprintf(receipt, "#%*s%-*s  #\n", width[57], "THANK YOU FOR BANKING WITH US!", width[32], "");
+        for (int i = 45; i <= 47; i++)
+        {
+            for (int j = 1; j <= 47; j++)
+            {
+                if (i == 1 || i == 47 || j == 1 || j == 47)
+                {
+                    fprintf(receipt, "# ");
+                }
+                else
+                {
+                    fprintf(receipt, "  ");
+                }
+            }
+            fprintf(receipt, "\n");
+        }
+        fclose(receipt);
+        return (0);
     }
-    fclose(receipt);
-    return (0);
 }
 
 // For Font Colors
@@ -742,19 +1162,41 @@ int main()
     // Validate User
     if (userCardInput == user1.cardNum)
     {
+        pin = 0;
+        cardNumber = 0;
         pin += user1.pin;
-        atmBalance += user1.atmBalance;
-        cardNumber += user1.cardNum;
-        transact();
-        return 0;
+        if (ctr == 0)
+        {
+            cardNumber += user1.cardNum;
+            atmBalance1 += user1.atmBalance;
+            ctr += 1;
+            transact();
+        }
+        else
+        {
+            cardNumber += user1.cardNum;
+            atmBalance1 == atmBalance1;
+            transact();
+        }
     }
     else if (userCardInput == user2.cardNum)
     {
+        int ctr2 = 0;
+        pin = 0;
+        cardNumber = 0;
         pin += user2.pin;
-        atmBalance += user2.atmBalance;
         cardNumber += user2.cardNum;
-        transact();
-        return 0;
+        if (ctr2 == 0)
+        {
+            atmBalance2 += user2.atmBalance;
+            ctr2 += 1;
+            transact();
+        }
+        else
+        {
+            atmBalance2 == atmBalance2;
+            transact();
+        }
     }
     else
     {
@@ -765,5 +1207,4 @@ int main()
         printf("\n=================================================================================\n");
         return 0;
     }
-    return 0;
 }
