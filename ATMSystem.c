@@ -471,6 +471,16 @@ int transferTransact()
                 return transactionProcess();
             }
         }
+        else
+        {
+            system("cls");
+            printf("\n=================================================================================\n");
+            red();
+            printf("\n\t\t\t   Please Input Valid Card Number \n");
+            reset();
+            printf("\n=================================================================================\n");
+            return transferTransact();
+        }
     }
 
     // Send Funds to user 2 using user 1
@@ -520,7 +530,7 @@ int transferTransact()
             return transferTransact();
         }
         // Send Funds to User 2
-        if (num == user2.cardNum)
+        else if (num == user2.cardNum)
         {
             system("cls");
             printf("\n=================================================================================\n\n");
@@ -569,6 +579,16 @@ int transferTransact()
                 printf("\n\n=================================================================================\n");
                 return transactionProcess();
             }
+        }
+        else
+        {
+            system("cls");
+            printf("\n=================================================================================\n");
+            red();
+            printf("\n\t\t\t   Please Input Valid Card Number \n");
+            reset();
+            printf("\n=================================================================================\n");
+            return transferTransact();
         }
     }
 }
